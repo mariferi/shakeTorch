@@ -16,18 +16,22 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private SensorManager sensorManager;
+    private TextView tv;
+
     //Shake Sensor
     private  ShakeSensorEventListener shakeEL=new ShakeSensorEventListener();
     private  Sensor mShake;
 
     //flashlight
+    private CameraSensorEventListener cameraEL=new CameraSensorEventListener();
+    private Sensor mCam;
     private ImageButton powerButton;
     private boolean flashLightState;
 
     //Light sensor
     private LightSensorEventListener lightEL = new LightSensorEventListener();
-    private TextView tv;
     private Sensor mLight;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         //mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         //sensorManager.registerListener(lightEL, mLight, SensorManager.SENSOR_DELAY_NORMAL);
         //lightEL.setTv(tv);
-        /////
+
 
 
         // Listen for shakes
@@ -53,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         if (mShake != null) {
             sensorManager.registerListener(shakeEL,mShake,SensorManager.SENSOR_DELAY_NORMAL);
             shakeEL.setTv(tv);
+            if (shakeEL.shake){
+
+            }
         }
 
     }

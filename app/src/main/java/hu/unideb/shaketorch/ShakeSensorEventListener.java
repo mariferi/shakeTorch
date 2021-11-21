@@ -13,6 +13,7 @@ public class ShakeSensorEventListener implements SensorEventListener {
     public void setTv(TextView tv) {
         this.tv = tv;
     }
+    public  boolean shake =false;
     // variables for shake detection
     private static final float SHAKE_THRESHOLD = 3.25f; // m/S**2
     private static final int MIN_TIME_BETWEEN_SHAKES_MILLISECS = 1000;
@@ -31,9 +32,11 @@ public class ShakeSensorEventListener implements SensorEventListener {
                 double acceleration = Math.sqrt(Math.pow(x, 2) +
                         Math.pow(y, 2) +
                         Math.pow(z, 2)) - SensorManager.GRAVITY_EARTH;
+                shake=false;
                 tv.setText("Acceleration is " + acceleration + "m/s^2");//No Shake
                 if (acceleration > SHAKE_THRESHOLD) {
                     mLastShakeTime = curTime;
+                    shake=true;
                     tv.setText( "Shake, Rattle, and Roll");//Shake
                 }
             }
