@@ -3,34 +3,46 @@ package hu.unideb.shaketorch;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class LightSensorEventListener implements SensorEventListener {
     private TextView tv;
+    private Button btn;
+    public float  lux;
+    private int darkvalue=30;
+    private boolean torchON =false;
 
     public void setTv(TextView tv) {
         this.tv = tv;
     }
-
-    public float getLux(SensorEvent sensorEvent){
-        return sensorEvent.values[0];
-    }
-    public boolean bright(SensorEvent sensorEvent){
-        return sensorEvent.values[0]<=20;
+    public  void setbtn(Button btn){
+        this.btn=btn;
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        float lux = sensorEvent.values[0];
-        if(lux<=20){
-            tv.setText("Dark "+lux);
+        lux = sensorEvent.values[0];
+        //sötét
+        if(lux<=darkvalue){
+            tv.setText(""+lux);
             tv.setTextColor(0xFFFFFFFF);
             tv.setBackgroundColor(0xFF000000);
+            if(!torchON) {
+                btn.callOnClick();
+                torchON =true;
+            }
         }
-        else if(lux > 20) {
-            tv.setText("Light "+lux);
+        //világos
+        else if(lux > darkvalue) {
+            tv.setText(""+lux);
             tv.setTextColor(0xFF000000);
             tv.setBackgroundColor(0xFFFFFFFF);
+            if(torchON){
+                btn.callOnClick();
+                torchON=false;
+            }
+            torchON =false;
         }
         //tv.setText(""+lux);
        //tv.setText(lux + "\n" + tv.getText());

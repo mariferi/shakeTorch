@@ -5,17 +5,24 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
+
 
 public class ShakeSensorEventListener implements SensorEventListener {
     private TextView tv;
+    private Button btn;
+    public Boolean shake=false;
 
+    public  void setbtn(Button btn){
+        this.btn=btn;
+    }
     public void setTv(TextView tv) {
         this.tv = tv;
     }
-    public  boolean shake =false;
+
     // variables for shake detection
-    private static final float SHAKE_THRESHOLD = 3.25f; // m/S**2
+    private static final float SHAKE_THRESHOLD = 4.25f; // m/S**2;3.25f
     private static final int MIN_TIME_BETWEEN_SHAKES_MILLISECS = 1000;
     private long mLastShakeTime;
 
@@ -33,11 +40,12 @@ public class ShakeSensorEventListener implements SensorEventListener {
                         Math.pow(y, 2) +
                         Math.pow(z, 2)) - SensorManager.GRAVITY_EARTH;
                 shake=false;
-                tv.setText("Acceleration is " + acceleration + "m/s^2");//No Shake
+                tv.setText(shake.toString());//No Shake
                 if (acceleration > SHAKE_THRESHOLD) {
                     mLastShakeTime = curTime;
                     shake=true;
-                    tv.setText( "Shake, Rattle, and Roll");//Shake
+                    btn.callOnClick();
+                   tv.setText(shake.toString());//Shake
                 }
             }
         }
@@ -47,4 +55,6 @@ public class ShakeSensorEventListener implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int i) {
         //TODO
     }
+
+
 }
