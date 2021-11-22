@@ -1,6 +1,7 @@
 package hu.unideb.shaketorch;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.SavedStateViewModelFactory;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -8,7 +9,9 @@ import android.hardware.SensorManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -19,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView lTV;
 
     //Settings
-    public Boolean shake_on;
-    public Boolean light_on;
+    public Boolean shake_on=true;
+    public Boolean light_on=true;
 
     //Shake Sensor
     private  ShakeSensorEventListener shakeEL=new ShakeSensorEventListener();
@@ -30,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private CameraManager cameraManager;
     private String cameraID;
     private boolean flashState=false;
-    //private ImageButton powerButton;
-    private Button powerButton;
+    private ImageButton powerButton;
+    //private Button powerButton;
     private Switch light_sw;
     private Switch shake_sw;
 
@@ -56,18 +59,22 @@ public class MainActivity extends AppCompatActivity {
         //tv.setMovementMethod(new ScrollingMovementMethod());
         //tv.setText(sensorManager.getSensorList(Sensor.TYPE_ALL).toString());
 
+
         //shake
-            mShake = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShake = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if(mShake!=null) {
             sensorManager.registerListener(shakeEL, mShake, SensorManager.SENSOR_DELAY_NORMAL);
             shakeEL.setTv(sTV);
             shakeEL.setbtn(powerButton);
+        }
 
         //light
             mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        if(mLight!=null) {
             sensorManager.registerListener(lightEL, mLight, SensorManager.SENSOR_DELAY_NORMAL);
             lightEL.setTv(lTV);
             lightEL.setbtn(powerButton);
-
+        }
 
     }
 
@@ -86,17 +93,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void shakeSwitched(android.view.View v){
-        if (!shake_on)
-            shake_on=true;
-        else
+        if (shake_on)
+        {
+            sensorManager.unregisterListener(shakeEL);
             shake_on=false;
+        }
+        else {
+            shake_on=true;
+            onPause();
+            onResume();
+        }
     }
 
     public void lightSwitched(android.view.View v){
-        if (!light_on)
-            light_on=true;
-        else
+        if (light_on){
+            sensorManager.unregisterListener(lightEL);
             light_on=false;
+        }
+        else {
+            light_on = true;
+            onPause();
+            onResume();
+
+        }
     }
 
     public void powerButtonClicked(android.view.View v){

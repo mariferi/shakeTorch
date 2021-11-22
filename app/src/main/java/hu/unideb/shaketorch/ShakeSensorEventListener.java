@@ -6,15 +6,16 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
 public class ShakeSensorEventListener implements SensorEventListener {
     private TextView tv;
-    private Button btn;
+    private ImageButton btn;
     public Boolean shake=false;
 
-    public  void setbtn(Button btn){
+    public  void setbtn(ImageButton btn){
         this.btn=btn;
     }
     public void setTv(TextView tv) {

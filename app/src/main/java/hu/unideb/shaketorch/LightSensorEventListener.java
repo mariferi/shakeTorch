@@ -4,11 +4,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class LightSensorEventListener implements SensorEventListener {
     private TextView tv;
-    private Button btn;
+    private ImageButton btn;
     public float  lux;
     private int darkvalue=30;
     private boolean torchON =false;
@@ -16,7 +17,7 @@ public class LightSensorEventListener implements SensorEventListener {
     public void setTv(TextView tv) {
         this.tv = tv;
     }
-    public  void setbtn(Button btn){
+    public  void setbtn(ImageButton btn){
         this.btn=btn;
     }
 
