@@ -1,7 +1,6 @@
 package hu.unideb.shaketorch;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.SavedStateViewModelFactory;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -9,8 +8,6 @@ import android.hardware.SensorManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -18,8 +15,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private SensorManager sensorManager;
-    private TextView sTV;
-    private TextView lTV;
+    private TextView sTV,lTV;
 
     //Settings
     public Boolean shake_on=true;
@@ -29,18 +25,17 @@ public class MainActivity extends AppCompatActivity {
     private  ShakeSensorEventListener shakeEL=new ShakeSensorEventListener();
     private  Sensor mShake;
 
+    //Light sensor
+    private LightSensorEventListener lightEL = new LightSensorEventListener();
+    private Sensor mLight;
+
     //flashlight
     private CameraManager cameraManager;
     private String cameraID;
     private boolean flashState=false;
     private ImageButton powerButton;
-    //private Button powerButton;
-    private Switch light_sw;
-    private Switch shake_sw;
 
-    //Light sensor
-    private LightSensorEventListener lightEL = new LightSensorEventListener();
-    private Sensor mLight;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
         sTV = findViewById(R.id.shakeTextView);
         lTV = findViewById(R.id.lightTextView);
         powerButton = findViewById(R.id.powerButton);
-        light_sw=findViewById(R.id.light_sw);
-        shake_sw=findViewById(R.id.shake_sw);
-
 
         //all sensors
         //List<Sensor> deviceSensors=sensorManager.getSensorList(Sensor.TYPE_ALL);
@@ -69,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //light
-            mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         if(mLight!=null) {
             sensorManager.registerListener(lightEL, mLight, SensorManager.SENSOR_DELAY_NORMAL);
             lightEL.setTv(lTV);

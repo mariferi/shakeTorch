@@ -3,7 +3,6 @@ package hu.unideb.shaketorch;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -47,7 +46,7 @@ public class LightSensorEventListener implements SensorEventListener {
         }
         //tv.setText(""+lux);
        //tv.setText(lux + "\n" + tv.getText());
-        //tv.setBackgroundColor(0xFF000000+(int)lux/3+(int)lux/3*256+(int)lux/3*256*256);
+        // tv.setBackgroundColor(0xFF000000+(int)lux/3+(int)lux/3*256+(int)lux/3*256*256);
     }
 
     @Override
